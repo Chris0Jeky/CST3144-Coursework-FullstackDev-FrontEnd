@@ -11,14 +11,20 @@
 </head>
 <body>
     <div id="products">
+    <div class="container mt-4">
+        <h4>Cart ({{ cart.length }} items)</h4>
+    </div>
     <div v-if="true">
+        <div class="container mt-4">
+            <button class="btn btn-success" v-if="cart.length > 0" v-on:click="moveToCheckout">Checkout</button>
+        </div>
         <!-- Example of a product card -->
         <div class="row" v-if="true">
             <div class="col-md-4" v-for="(product, key) in products" :key="product.id">
                 <div class="card text-center">
                     <div class="card-body">
                         <figure>
-                            <img v-bind:src="product.image" alt="Product Image" class="mb-3">
+                            <img v-bind:src="product.image" alt="Product Image" class="mb-3" style="width: 150px; height: auto;">
                         </figure>
                         <h5>{{ product.subject }}</h5>
                         <p>Location: {{ product.location }}</p>
