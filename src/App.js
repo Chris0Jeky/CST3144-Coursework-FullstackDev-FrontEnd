@@ -1,91 +1,70 @@
 new Vue({
-    el: '#products',  
+    el: '#products',
     
     data: {
-        sitename: "Vue.js pet store",
-        products: {
-            maths: {
+        sitename: "Vue.js School Store",  // Updated the sitename for relevancy
+        products: [
+            {
                 id: 1001,
                 subject: "Maths",
                 location: "London",
                 price: 100,
-                spaces: 5
+                spaces: 5,
+                image: 'https://via.placeholder.com/150'
             },
-            music: {
+            {
                 id: 1002,
                 subject: "Music",
                 location: "Cambridge",
-                price: 100,
-                spaces: 5
+                price: 90,
+                spaces: 5,
+                image: 'https://via.placeholder.com/150'
             },
-            english: {
+            {
                 id: 1003,
                 subject: "English",
                 location: "Oxford",
-                price: 100,
-                spaces: 5
-            },
-            maths: {
-                id: 1004,
-                subject: "Maths",
-                location: "Bristol",
-                price: 100,
-                spaces: 5
-            },
-            english: {
-                id: 1005,
-                subject: "English",
-                location: "Roma roma mia",
-                price: 100,
-                spaces: 5 
+                price: 80,
+                spaces: 5,
+                image: 'https://via.placeholder.com/150'
             }
-
-        },
-        listOfProducts: [],
-        cart: [],
+        ],
+        cart: [],  // Cart to store added products
         checkOutArea: false
     },
 
     methods: {
-        addItem: function(){
-            this.cart.push( this.product.id );
-            this.product.availability -= 1; 
-            console.log(this.cart);
-            console.log(this.product.availability);
-        },
-
-        removeLastItem: function(){
-            console.log(this.cart);
-            this.cart.pop();
-            this.product.availability++;
-            console.log(this.cart);
-        },
-
-        moveToOtherArea: function(){
-            if (this.checkOutArea == true) {
-                this.checkOutArea = false;
-            } else {
-                this.checkOutArea = true;
+        // Add item to the cart
+        addItem(product) {
+            if (product.spaces > 0) {
+                this.cart.push(product);  // Add product to cart
+                product.spaces--;         // Decrease available spaces
             }
-            return this.checkOutArea;
+        },
+
+        // Remove the last item from the cart
+        removeLastItem() {
+            if (this.cart.length > 0) {
+                const lastProduct = this.cart.pop();
+                lastProduct.spaces++;  // Return space back to product when removed
+            }
+        },
+
+        // Remove all items from the cart
+        clearCart() {
+            if (this.cart.length > 0) {
+                this.cart.forEach(product => {
+                    product.spaces++;  // Restore spaces for all products in the cart
+                });
+                this.cart = [];  // Empty the cart
+            }
         }
-    },     
+    },
 
     computed: {
-        canAddToCart: function(){
-            if (this.product.availability > 0) {
-                return true;
-            }
-            else return false;
-        },
-
-        canRemoveCart: function(){
-            if (this.cart.length > 0) {
-                return true;
-            }
-            else if (this.cart.length < 1) {
-                return false
-            } 
+        // Determine if the cart has items for removal
+        canRemoveCart() {
+            return this.cart.length > 0;
         }
     }
 });
