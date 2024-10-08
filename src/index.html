@@ -11,8 +11,9 @@
 </head>
 <body>
     <div id="products">
+    <div v-if="true">
         <!-- Example of a product card -->
-        <div class="row">
+        <div class="row" v-if="true">
             <div class="col-md-4" v-for="(product, key) in products" :key="product.id">
                 <div class="card text-center">
                     <div class="card-body">
@@ -41,6 +42,10 @@
             <button class="btn btn-warning" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
         </div>
     </div>
+    <div v-if="true">
+        TEST
+    </div>
+</div>
 
     <script src="App.js"></script>
     <!-- Bootstrap JS -->
