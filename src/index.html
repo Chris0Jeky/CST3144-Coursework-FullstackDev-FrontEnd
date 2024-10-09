@@ -16,10 +16,9 @@
     <div id="products">
         <div class="container mt-4">
             <h4>Cart ({{ cart.length }} items)</h4>
-            <div class="container mt-4" v-if="cart.length > 0 && !checkOutArea">
-                <button class="btn btn-success me-2" v-if="cart.length > 0"
-                    v-on:click="moveToOtherArea">Checkout</button>
-                <button class="btn btn-danger" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
+            <div class="container mt-4" v-if="canRemoveCart && !checkOutArea">
+                <button class="btn btn-success me-2" v-if="canRemoveCart" v-on:click="moveToOtherArea">Checkout</button>
+                <button class="btn btn-danger" v-if="canRemoveCart" v-on:click="clearCart">Clear Cart</button>
             </div>
         </div>
         <div v-if="!checkOutArea">
@@ -74,11 +73,10 @@
                     <li v-for="item in cart" :key="item.id">{{ item.subject }} - {{ item.location }} (£{{ item.price }})
                     </li>
                 </ul>
-                <button class="btn btn-success me-2" v-if="cart.length > 0"
-                    v-on:click="moveToOtherArea">Checkout</button>
-                <button class="btn btn-warning" v-if="cart.length > 0" v-on:click="removeLastItem">Remove Last
+                <button class="btn btn-success me-2" v-if="canRemoveCart" v-on:click="moveToOtherArea">Checkout</button>
+                <button class="btn btn-warning" v-if="canRemoveCart" v-on:click="removeLastItem">Remove Last
                     Item</button>
-                <button class="btn btn-danger mt-2" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
+                <button class="btn btn-danger mt-2" v-if="canRemoveCart" v-on:click="clearCart">Clear Cart</button>
             </div>
         </div>
 
@@ -111,12 +109,14 @@
                 <div class="mb-3">
                     <label for="nameInput" class="form-label">Name:</label>
                     <input type="text" id="nameInput" v-model="name" class="form-control" placeholder="Enter your name">
+                    <!-- Error message for name -->
                     <p v-if="nameError" class="text-danger">{{ nameError }}</p>
                 </div>
                 <div class="mb-3">
                     <label for="phoneInput" class="form-label">Phone:</label>
                     <input type="text" id="phoneInput" v-model="phone" class="form-control"
                         placeholder="Enter your phone number">
+                    <!-- Error message for phone -->
                     <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
                 </div>
                 <button class="btn btn-success" :disabled="!isCheckoutEnabled" v-on:click="submitOrder">
