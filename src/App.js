@@ -139,6 +139,18 @@ new Vue({
             return Object.values(grouped);  // Return as an array of grouped items
         },
 
+        // Sort products by a selected attribute and order
+        sortProducts() {
+            const sortedProducts = [...this.products].sort((a, b) => {
+                if (this.sortOrder === 'asc') {
+                    return a[this.sortAttribute] > b[this.sortAttribute] ? 1 : -1;
+                } else {
+                    return a[this.sortAttribute] < b[this.sortAttribute] ? 1 : -1;
+                }
+            });
+            this.products = sortedProducts;
+        },
+
         moveToOtherArea(){
             if (this.checkOutArea == true) {
                 this.checkOutArea = false;
