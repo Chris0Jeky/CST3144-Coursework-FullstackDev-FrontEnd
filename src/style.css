@@ -153,7 +153,7 @@ h4 {
     color: #32d296;
 }
 
-/* Styling for the Checkout Area */
+
 .checkout-area {
     background-color: #ffffff;
     border-radius: 20px;
@@ -172,7 +172,7 @@ h4 {
     animation: glow 1.5s infinite alternate;
 }
 
-/* Glowing animation for the checkout title */
+
 @keyframes glow {
     0% {
         text-shadow: 2px 2px 8px rgba(255, 101, 132, 0.3);
@@ -202,7 +202,7 @@ h4 {
     align-items: center;
 }
 
-/* Button inside the checkout item */
+
 .checkout-item button {
     background-color: #ff1744;
     border: none;
@@ -212,7 +212,7 @@ h4 {
     color: white;
 }
 
-/* Sorting Options Styling */
+
 .sorting-options {
     background-color: #ffffff;
     border-radius: 15px;
@@ -244,7 +244,7 @@ h4 {
     box-shadow: 0 5px 15px rgba(255, 101, 132, 0.2);
 }
 
-/* Form styling in the checkout area */
+
 .checkout-form input {
     padding: 10px;
     font-size: 1rem;
