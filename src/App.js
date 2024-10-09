@@ -118,7 +118,28 @@ new Vue({
             }
         },
 
-        moveToOtherArea: function(){
+         // Remove a specific product from the cart in batches
+         removeItemFromCart(product) {
+            const index = this.cart.findIndex(cartProduct => cartProduct.id === product.id);
+            if (index !== -1) {
+                this.cart.splice(index, 1);  // Remove one unit from the cart
+                product.spaces++;  // Increase the available spaces for that product
+            }
+        },
+
+        // Group products in the cart by ID for displaying in batches
+        groupedCart() {
+            const grouped = {};
+            this.cart.forEach(product => {
+                if (!grouped[product.id]) {
+                    grouped[product.id] = { ...product, quantity: 0 };
+                }
+                grouped[product.id].quantity++;
+            });
+            return Object.values(grouped);  // Return as an array of grouped items
+        },
+
+        moveToOtherArea(){
             if (this.checkOutArea == true) {
                 this.checkOutArea = false;
             } else {
