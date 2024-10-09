@@ -152,12 +152,7 @@ new Vue({
         },
 
         moveToOtherArea(){
-            if (this.checkOutArea == true) {
-                this.checkOutArea = false;
-            } else {
-                this.checkOutArea = true;
-            }
-            return this.checkOutArea;
+            this.checkOutArea = !this.checkOutArea;
         }
     },
 
