@@ -25,6 +25,22 @@
         <div v-if="!checkOutArea">
             <!-- Example of a product card -->
             <div class="row mt-4">
+                        <!-- Sorting Options -->
+        <div class="container mt-4">
+            <label for="sortAttribute">Sort by:</label>
+            <select v-model="sortAttribute" @change="sortProducts">
+                <option value="subject">Subject</option>
+                <option value="location">Location</option>
+                <option value="price">Price</option>
+                <option value="spaces">Spaces</option>
+            </select>
+
+            <label for="sortOrder">Order:</label>
+            <select v-model="sortOrder" @change="sortProducts">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
                 <div class="col-md-4" v-for="(product, key) in products" :key="product.id">
                     <div class="card text-center">
                         <div class="card-body">
@@ -52,6 +68,8 @@
                     <li v-for="item in cart" :key="item.id">{{ item.subject }} - {{ item.location }} (£{{ item.price }})
                     </li>
                 </ul>
+                <button class="btn btn-success me-2" v-if="cart.length > 0"
+                    v-on:click="moveToOtherArea">Checkout</button>
                 <button class="btn btn-warning" v-if="cart.length > 0" v-on:click="removeLastItem">Remove Last
                     Item</button>
                 <button class="btn btn-danger mt-2" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
@@ -66,6 +84,17 @@
             <!-- Checkout Header -->
             <div class="container mt-4">
                 <h4 class="checkout-header">Checkout Area</h4>
+                <!-- Display grouped cart items -->
+        <div class="container mt-4">
+            <h4>Checkout</h4>
+            <ul>
+                <li v-for="groupedProduct in groupedCart()" :key="groupedProduct.id">
+                    {{ groupedProduct.subject }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
+                    <span> x {{ groupedProduct.quantity }} </span>
+                    <button class="btn btn-danger btn-sm" v-on:click="removeItemFromCart(groupedProduct)">Remove One</button>
+                </li>
+            </ul>
+        </div>
             </div>
         </div>
     </div>
