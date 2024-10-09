@@ -86,7 +86,9 @@ new Vue({
             }
         ],
         cart: [],  // Cart to store added products
-        checkOutArea: false
+        checkOutArea: false,
+        sortAttribute: 'subject',  // Default sort attribute
+        sortOrder: 'asc'  // Default sort order
     },
 
     methods: {
