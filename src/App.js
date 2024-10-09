@@ -189,6 +189,18 @@ new Vue({
                 return true;
             }
         },
+
+        submitOrder() {
+            if (this.isCheckoutEnabled) {
+                // Simulate order submission
+                this.orderSubmitted = true;
+
+                // Clear the cart and reset the form after submission
+                this.clearCart();
+                this.name = '';
+                this.phone = '';
+            }
+        }
     },
 
     computed: {
