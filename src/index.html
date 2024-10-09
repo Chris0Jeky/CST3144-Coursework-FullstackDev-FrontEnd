@@ -14,13 +14,12 @@
     <div id="products">
         <div class="container mt-4">
             <h4>Cart ({{ cart.length }} items)</h4>
-        </div>
-        <div v-if="!checkOutArea">
-            <div class="container mt-4">
+            <div class="container mt-4" v-if="cart.length > 0 && !checkOutArea">
                 <button class="btn btn-success me-2" v-if="cart.length > 0" v-on:click="moveToOtherArea">Checkout</button>
                 <button class="btn btn-danger" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
             </div>
-
+        </div>
+        <div v-if="!checkOutArea">
             <!-- Example of a product card -->
             <div class="row mt-4">
                 <div class="col-md-4" v-for="(product, key) in products" :key="product.id">
