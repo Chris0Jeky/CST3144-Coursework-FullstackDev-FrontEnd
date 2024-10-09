@@ -85,7 +85,7 @@ new Vue({
                 image: '../images/guitar_16431853.gif'
             }
         ],
-        cart: [],  // Cart to store added products
+        cart: [],  
         data: {
             name: '',
             phone: '',
@@ -102,8 +102,8 @@ new Vue({
         // Add item to the cart
         addItem(product) {
             if (product.spaces > 0) {
-                this.cart.push(product);  // Add product to cart
-                product.spaces--;         // Decrease available spaces
+                this.cart.push(product);  
+                product.spaces--;         
             }
         },
 
@@ -111,7 +111,7 @@ new Vue({
         removeLastItem() {
             if (this.cart.length > 0) {
                 const lastProduct = this.cart.pop();
-                lastProduct.spaces++;  // Return space back to product when removed
+                lastProduct.spaces++; 
             }
         },
 
@@ -119,9 +119,9 @@ new Vue({
         clearCart() {
             if (this.cart.length > 0) {
                 this.cart.forEach(product => {
-                    product.spaces++;  // Restore spaces for all products in the cart
+                    product.spaces++;  
                 });
-                this.cart = [];  // Empty the cart
+                this.cart = []; 
             }
         },
 
@@ -129,8 +129,8 @@ new Vue({
          removeItemFromCart(product) {
             const index = this.cart.findIndex(cartProduct => cartProduct.id === product.id);
             if (index !== -1) {
-                this.cart.splice(index, 1);  // Remove one unit from the cart
-                product.spaces++;  // Increase the available spaces for that product
+                this.cart.splice(index, 1);  
+                product.spaces++;  
             }
         },
 
