@@ -106,6 +106,27 @@
                     </ul>
                 </div>
             </div>
+            <!-- Checkout Form -->
+            <div class="checkout-form mt-4">
+                <div class="mb-3">
+                    <label for="nameInput" class="form-label">Name:</label>
+                    <input type="text" id="nameInput" v-model="name" class="form-control" placeholder="Enter your name">
+                    <p v-if="nameError" class="text-danger">{{ nameError }}</p>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneInput" class="form-label">Phone:</label>
+                    <input type="text" id="phoneInput" v-model="phone" class="form-control" placeholder="Enter your phone number">
+                    <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
+                </div>
+                <button class="btn btn-success" :disabled="!isCheckoutEnabled" v-on:click="submitOrder">
+                    Checkout
+                </button>
+            </div>
+
+            <!-- Confirmation message -->
+            <p v-if="orderSubmitted" class="mt-4 text-success">
+                Your order has been successfully submitted!
+            </p>
         </div>
     </div>
 
