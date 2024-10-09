@@ -116,8 +116,13 @@ new Vue({
             }
         },
 
-        moveToCheckout(){
-            return true;
+        moveToOtherArea: function(){
+            if (this.checkOutArea == true) {
+                this.checkOutArea = false;
+            } else {
+                this.checkOutArea = true;
+            }
+            return this.checkOutArea;
         }
     },
 
