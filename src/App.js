@@ -86,13 +86,13 @@ new Vue({
             }
         ],
         cart: [],
-        data: {
-            name: '',
-            phone: '',
-            nameError: '',
-            phoneError: '',
-            orderSubmitted: false
-        },
+
+        name: '',
+        phone: '',
+        nameError: '',
+        phoneError: '',
+        orderSubmitted: false,
+
         checkOutArea: false,
         sortAttribute: 'subject',  // Default sort attribute
         sortOrder: 'asc'  // Default sort order
@@ -210,7 +210,6 @@ new Vue({
         },
 
         isCheckoutEnabled() {
-            // Check if both name and phone are valid
             return this.validateName() && this.validatePhone();
         }
     }
