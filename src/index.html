@@ -23,24 +23,30 @@
             </div>
         </div>
         <div v-if="!checkOutArea">
+            <!-- Sorting Options with Container for Styling -->
+            <div class="container sorting-options mt-4 p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="sortAttribute">Sort by:</label>
+                        <select v-model="sortAttribute" @change="sortProducts" class="form-select">
+                            <option value="subject">Subject</option>
+                            <option value="location">Location</option>
+                            <option value="price">Price</option>
+                            <option value="spaces">Spaces</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="sortOrder">Order:</label>
+                        <select v-model="sortOrder" @change="sortProducts" class="form-select">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <!-- Example of a product card -->
             <div class="row mt-4">
-                        <!-- Sorting Options -->
-        <div class="container mt-4">
-            <label for="sortAttribute">Sort by:</label>
-            <select v-model="sortAttribute" @change="sortProducts">
-                <option value="subject">Subject</option>
-                <option value="location">Location</option>
-                <option value="price">Price</option>
-                <option value="spaces">Spaces</option>
-            </select>
-
-            <label for="sortOrder">Order:</label>
-            <select v-model="sortOrder" @change="sortProducts">
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-            </select>
-        </div>
                 <div class="col-md-4" v-for="(product, key) in products" :key="product.id">
                     <div class="card text-center">
                         <div class="card-body">
@@ -76,25 +82,29 @@
             </div>
         </div>
 
+        <!-- Checkout Area -->
         <div v-if="checkOutArea">
             <div class="container mt-4 text-center">
                 <button class="btn btn-warning" v-on:click="moveToOtherArea">Back To Products</button>
             </div>
 
-            <!-- Checkout Header -->
-            <div class="container mt-4">
+            <!-- Checkout Header and Rectangle -->
+            <div class="container mt-4 checkout-area">
                 <h4 class="checkout-header">Checkout Area</h4>
+
                 <!-- Display grouped cart items -->
-        <div class="container mt-4">
-            <h4>Checkout</h4>
-            <ul>
-                <li v-for="groupedProduct in groupedCart()" :key="groupedProduct.id">
-                    {{ groupedProduct.subject }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
-                    <span> x {{ groupedProduct.quantity }} </span>
-                    <button class="btn btn-danger btn-sm" v-on:click="removeItemFromCart(groupedProduct)">Remove One</button>
-                </li>
-            </ul>
-        </div>
+                <div class="checkout-rectangle mt-4 p-4">
+                    <h4 class="checkout-title">Checkout</h4>
+                    <ul>
+                        <li v-for="groupedProduct in groupedCart()" :key="groupedProduct.id" class="checkout-item">
+                            {{ groupedProduct.subject }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
+                            <span> x {{ groupedProduct.quantity }} </span>
+                            <button class="btn btn-danger btn-sm ms-2" v-on:click="removeItemFromCart(groupedProduct)">
+                                Remove One
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
