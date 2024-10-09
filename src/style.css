@@ -106,7 +106,7 @@ ul {
 }
 
 ul li {
-    background-color: #ff6584;
+    background-color: #67dbe8;
     color: #fff;
     padding: 10px 15px;
     border-radius: 20px;
@@ -116,7 +116,7 @@ ul li {
 }
 
 ul li:hover {
-    background-color: #ff8ea1;
+    background-color: #fb95a6;
 }
 
 
