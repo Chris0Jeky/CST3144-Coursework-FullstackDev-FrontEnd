@@ -175,6 +175,20 @@ new Vue({
                 return true;
             }
         },
+
+        validatePhone() {
+            const phoneRegex = /^[0-9]+$/;
+            if (!this.phone) {
+                this.phoneError = 'Phone number is required.';
+                return false;
+            } else if (!phoneRegex.test(this.phone)) {
+                this.phoneError = 'Phone must contain only numbers.';
+                return false;
+            } else {
+                this.phoneError = '';
+                return true;
+            }
+        },
     },
 
     computed: {
