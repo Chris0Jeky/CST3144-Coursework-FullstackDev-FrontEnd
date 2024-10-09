@@ -1,21 +1,21 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa, #e8f0f7); 
-    color: #4a4a4a;  
+    background: linear-gradient(135deg, #f5f7fa, #e8f0f7);
+    color: #4a4a4a;
 }
 
 
 h4 {
     font-weight: bold;
-    color: #6c63ff; 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); 
+    color: #6c63ff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
 .card {
-    border-radius: 20px;  
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); 
-    transition: all 0.4s ease-in-out;  
+    border-radius: 20px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease-in-out;
     background: #ffffff;
     overflow: hidden;
     position: relative;
@@ -29,27 +29,27 @@ h4 {
 
 
 .card:hover {
-    transform: scale(1.05); 
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2); 
+    transform: scale(1.05);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
 }
 
 
 .card-body img {
     transition: transform 0.4s ease-in-out;
-    border-radius: 10px;  
+    border-radius: 10px;
 }
 
 .card-body:hover img {
-    transform: scale(1.15);  
+    transform: scale(1.15);
 }
 
 
 .btn {
-    border-radius: 30px; 
+    border-radius: 30px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
     padding: 10px 20px;
 }
@@ -134,6 +134,7 @@ ul li:hover {
     0% {
         text-shadow: 2px 2px 5px rgba(255, 101, 132, 0.3);
     }
+
     100% {
         text-shadow: 2px 2px 20px rgba(255, 101, 132, 0.7);
     }
@@ -145,7 +146,7 @@ ul li:hover {
     padding: 30px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -177,6 +178,7 @@ h4 {
     0% {
         text-shadow: 2px 2px 8px rgba(255, 101, 132, 0.3);
     }
+
     100% {
         text-shadow: 2px 2px 20px rgba(255, 101, 132, 0.8);
     }
@@ -283,5 +285,3 @@ h4 {
     background: #ccc;
     cursor: not-allowed;
 }
-
-

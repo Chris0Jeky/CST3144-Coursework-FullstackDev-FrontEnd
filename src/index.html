@@ -115,7 +115,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="phoneInput" class="form-label">Phone:</label>
-                    <input type="text" id="phoneInput" v-model="phone" class="form-control" placeholder="Enter your phone number">
+                    <input type="text" id="phoneInput" v-model="phone" class="form-control"
+                        placeholder="Enter your phone number">
                     <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
                 </div>
                 <button class="btn btn-success" :disabled="!isCheckoutEnabled" v-on:click="submitOrder">

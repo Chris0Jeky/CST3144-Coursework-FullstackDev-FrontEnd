@@ -1,8 +1,8 @@
 new Vue({
     el: '#products',
-    
+
     data: {
-        sitename: "Vue.js School Store", 
+        sitename: "Vue.js School Store",
         products: [
             {
                 id: 1001,
@@ -85,7 +85,7 @@ new Vue({
                 image: '../images/guitar_16431853.gif'
             }
         ],
-        cart: [],  
+        cart: [],
         data: {
             name: '',
             phone: '',
@@ -102,8 +102,8 @@ new Vue({
         // Add item to the cart
         addItem(product) {
             if (product.spaces > 0) {
-                this.cart.push(product);  
-                product.spaces--;         
+                this.cart.push(product);
+                product.spaces--;
             }
         },
 
@@ -111,7 +111,7 @@ new Vue({
         removeLastItem() {
             if (this.cart.length > 0) {
                 const lastProduct = this.cart.pop();
-                lastProduct.spaces++; 
+                lastProduct.spaces++;
             }
         },
 
@@ -119,18 +119,18 @@ new Vue({
         clearCart() {
             if (this.cart.length > 0) {
                 this.cart.forEach(product => {
-                    product.spaces++;  
+                    product.spaces++;
                 });
-                this.cart = []; 
+                this.cart = [];
             }
         },
 
-         // Remove a specific product from the cart in batches
-         removeItemFromCart(product) {
+        // Remove a specific product from the cart in batches
+        removeItemFromCart(product) {
             const index = this.cart.findIndex(cartProduct => cartProduct.id === product.id);
             if (index !== -1) {
-                this.cart.splice(index, 1);  
-                product.spaces++;  
+                this.cart.splice(index, 1);
+                product.spaces++;
             }
         },
 
@@ -158,7 +158,7 @@ new Vue({
             this.products = sortedProducts;
         },
 
-        moveToOtherArea(){
+        moveToOtherArea() {
             this.checkOutArea = !this.checkOutArea;
         },
 
