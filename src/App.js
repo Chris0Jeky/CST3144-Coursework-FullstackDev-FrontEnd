@@ -9,7 +9,7 @@ new Vue({
                 subject: "Maths",
                 location: "London",
                 price: 100,
-                spaces: 5,
+                spaces: 9,
                 image: '../images/calculator_12320345.gif'
             },
             {
@@ -17,7 +17,7 @@ new Vue({
                 subject: "Maths",
                 location: "Cambridge",
                 price: 90,
-                spaces: 5,
+                spaces: 20,
                 image: '../images/calculator_17518098.gif'
             },
             {
@@ -25,7 +25,7 @@ new Vue({
                 subject: "Maths",
                 location: "Oxford",
                 price: 120,
-                spaces: 5,
+                spaces: 50,
                 image: '../images/calculator_6454138.gif'
             },
             {
@@ -33,7 +33,7 @@ new Vue({
                 subject: "English",
                 location: "Oxford",
                 price: 140,
-                spaces: 5,
+                spaces: 55,
                 image: '../images/dictionary_11935089.gif'
             },
             {
@@ -41,7 +41,7 @@ new Vue({
                 subject: "English",
                 location: "London",
                 price: 160,
-                spaces: 5,
+                spaces: 13,
                 image: '../images/dictionary_11935089.gif'
             },
             {
@@ -57,7 +57,7 @@ new Vue({
                 subject: "Chemestry",
                 location: "Oxford",
                 price: 220,
-                spaces: 5,
+                spaces: 7,
                 image: '../images/chemistry_12035107.gif'
             },
             {
@@ -65,7 +65,7 @@ new Vue({
                 subject: "Music",
                 location: "Oxford",
                 price: 230,
-                spaces: 5,
+                spaces: 9,
                 image: '../images/guitar_16431853.gif'
             },
             {
@@ -73,7 +73,7 @@ new Vue({
                 subject: "Music",
                 location: "Cambridge",
                 price: 10,
-                spaces: 5,
+                spaces: 17,
                 image: '../images/guitar_16431853.gif'
             },
             {
@@ -81,7 +81,7 @@ new Vue({
                 subject: "Music",
                 location: "London",
                 price: 300,
-                spaces: 5,
+                spaces: 11,
                 image: '../images/guitar_16431853.gif'
             }
         ],
