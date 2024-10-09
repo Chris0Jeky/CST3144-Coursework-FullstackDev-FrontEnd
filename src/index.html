@@ -17,6 +17,7 @@
     <div v-if="!checkOutArea">
         <div class="container mt-4">
             <button class="btn btn-success" v-if="cart.length > 0" v-on:click="moveToOtherArea">Checkout</button>
+            <button class="btn btn-danger" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
         </div>
         <!-- Example of a product card -->
         <div class="row" v-if="true">
@@ -44,8 +45,8 @@
             <ul>
                 <li v-for="item in cart" :key="item.id">{{ item.subject }} - {{ item.location }} (£{{ item.price }})</li>
             </ul>
-            <button class="btn btn-danger" v-if="cart.length > 0" v-on:click="removeLastItem">Remove Last Item</button>
-            <button class="btn btn-warning" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
+            <button class="btn btn-warning" v-if="cart.length > 0" v-on:click="removeLastItem">Remove Last Item</button>
+            <button class="btn btn-danger" v-if="cart.length > 0" v-on:click="clearCart">Clear Cart</button>
         </div>
     </div>
     <div v-if="checkOutArea">
