@@ -2,7 +2,7 @@ new Vue({
     el: '#products',
     
     data: {
-        sitename: "Vue.js School Store",  // Updated the sitename for relevancy
+        sitename: "Vue.js School Store", 
         products: [
             {
                 id: 1001,
@@ -86,6 +86,13 @@ new Vue({
             }
         ],
         cart: [],  // Cart to store added products
+        data: {
+            name: '',
+            phone: '',
+            nameError: '',
+            phoneError: '',
+            orderSubmitted: false
+        },
         checkOutArea: false,
         sortAttribute: 'subject',  // Default sort attribute
         sortOrder: 'asc'  // Default sort order
@@ -153,13 +160,32 @@ new Vue({
 
         moveToOtherArea(){
             this.checkOutArea = !this.checkOutArea;
-        }
+        },
+
+        validateName() {
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            if (!this.name) {
+                this.nameError = 'Name is required.';
+                return false;
+            } else if (!nameRegex.test(this.name)) {
+                this.nameError = 'Name must contain only letters.';
+                return false;
+            } else {
+                this.nameError = '';
+                return true;
+            }
+        },
     },
 
     computed: {
         // Determine if the cart has items for removal
         canRemoveCart() {
             return this.cart.length > 0;
+        },
+
+        isCheckoutEnabled() {
+            // Check if both name and phone are valid
+            return this.validateName() && this.validatePhone();
         }
     }
 });
