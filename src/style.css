@@ -244,4 +244,44 @@ h4 {
     box-shadow: 0 5px 15px rgba(255, 101, 132, 0.2);
 }
 
+/* Form styling in the checkout area */
+.checkout-form input {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.checkout-form input:focus {
+    outline: none;
+    border-color: #ff6584;
+    box-shadow: 0 5px 10px rgba(255, 101, 132, 0.1);
+}
+
+.checkout-form label {
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+.checkout-form .text-danger {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.checkout-form button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    background: #32d296;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+}
+
+.checkout-form button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
 
