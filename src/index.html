@@ -70,8 +70,8 @@
             <div class="container mt-4">
                 <h4>Cart ({{ cart.length }} items)</h4>
                 <ul>
-                    <li v-for="item in cart" :key="item.id">{{ item.subject }} - {{ item.location }} (£{{ item.price }})
-                    </li>
+                    <!-- <li v-for="item in cart" :key="item.id">{{ item.subject }} - {{ item.location }} (£{{ item.price }})
+                    </li> -->
                 </ul>
                 <button class="btn btn-success me-2" v-if="canRemoveCart" v-on:click="moveToOtherArea">Checkout</button>
                 <button class="btn btn-warning" v-if="canRemoveCart" v-on:click="removeLastItem">Remove Last
