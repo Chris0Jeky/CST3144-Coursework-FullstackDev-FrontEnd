@@ -1,6 +1,5 @@
 new Vue({
     el: '#products',
-
     data: {
         sitename: "Vue.js School Store",
         products: [
@@ -87,19 +86,21 @@ new Vue({
         ],
         cart: [],
 
+        // Form data for checkout
         name: '',
         phone: '',
         nameError: '',
         phoneError: '',
         orderSubmitted: false,
 
-        checkOutArea: false,
+        // Search and sorting
+        searchQuery: '', // track the search input
         sortAttribute: 'subject',  // Default sort attribute
-        sortOrder: 'asc'  // Default sort order
+        sortOrder: 'asc',  // Default sort order
+        checkOutArea: false
     },
 
     methods: {
-        // Add item to the cart
         addItem(product) {
             if (product.spaces > 0) {
                 this.cart.push(product);
@@ -125,24 +126,18 @@ new Vue({
             }
         },
 
-        // Remove a specific product from the cart in batches
+        // Remove a specific product from the cart
         removeItemFromCart(product) {
-            // Find the index of the product in the cart
             const index = this.cart.findIndex(cartProduct => cartProduct.id === product.id);
-        
+
             if (index !== -1) {
-                // Remove the product from the cart
-                const removedProduct = this.cart.splice(index, 1)[0]; 
-        
-                // Find the original product in the products array and increase its spaces
-                const originalProduct = this.products.find(prod => prod.id === removedProduct.id);
-        
+                this.cart.splice(index, 1); // Remove the item from the cart
+                const originalProduct = this.products.find(prod => prod.id === product.id);
                 if (originalProduct) {
                     originalProduct.spaces++;
                 }
             }
         },
-        
 
         // Group products in the cart by ID for displaying in batches
         groupedCart() {
@@ -156,22 +151,21 @@ new Vue({
             return Object.values(grouped);  // Return as an array of grouped items
         },
 
-        // Sort products by a selected attribute and order
+        // Sort products by selected attribute and order
         sortProducts() {
-            const sortedProducts = [...this.products].sort((a, b) => {
-                if (this.sortOrder === 'asc') {
-                    return a[this.sortAttribute] > b[this.sortAttribute] ? 1 : -1;
-                } else {
-                    return a[this.sortAttribute] < b[this.sortAttribute] ? 1 : -1;
-                }
+            this.products.sort((a, b) => {
+                let modifier = this.sortOrder === 'asc' ? 1 : -1;
+                if (a[this.sortAttribute] < b[this.sortAttribute]) return -1 * modifier;
+                if (a[this.sortAttribute] > b[this.sortAttribute]) return 1 * modifier;
+                return 0;
             });
-            this.products = sortedProducts;
         },
 
         moveToOtherArea() {
             this.checkOutArea = !this.checkOutArea;
         },
 
+        // Validate the name
         validateName() {
             const nameRegex = /^[a-zA-Z\s]+$/;
             if (!this.name) {
@@ -186,6 +180,7 @@ new Vue({
             }
         },
 
+        // Validate the phone number
         validatePhone() {
             const phoneRegex = /^[0-9]+$/;
             if (!this.phone) {
@@ -200,12 +195,10 @@ new Vue({
             }
         },
 
+        // Submit the order
         submitOrder() {
             if (this.isCheckoutEnabled) {
-                // Simulate order submission
                 this.orderSubmitted = true;
-
-                // Clear the cart and reset the form after submission
                 this.clearCart();
                 this.name = '';
                 this.phone = '';
@@ -214,7 +207,6 @@ new Vue({
     },
 
     computed: {
-        // Determine if the cart has items for removal
         canRemoveCart() {
             return this.cart.length > 0;
         },
@@ -223,28 +215,21 @@ new Vue({
             return this.validateName() && this.validatePhone();
         },
 
+        // Filter products based on search query and sorting
         filteredProducts() {
             return this.products.filter(product => {
                 const query = this.searchQuery.toLowerCase();
-    
-                // Safeguard by ensuring each field is defined and not null
                 const subject = product.subject ? product.subject.toLowerCase() : '';
                 const location = product.location ? product.location.toLowerCase() : '';
                 const price = product.price ? product.price.toString() : '';
                 const spaces = product.spaces ? product.spaces.toString() : '';
-    
-                // Check if the query matches any of the product fields
+
                 return (
                     subject.includes(query) ||
                     location.includes(query) ||
                     price.includes(query) ||
                     spaces.includes(query)
                 );
-            }).sort((a, b) => {
-                let modifier = this.sortOrder === 'asc' ? 1 : -1;
-                if (a[this.sortAttribute] < b[this.sortAttribute]) return -1 * modifier;
-                if (a[this.sortAttribute] > b[this.sortAttribute]) return 1 * modifier;
-                return 0;
             });
         }
     }
