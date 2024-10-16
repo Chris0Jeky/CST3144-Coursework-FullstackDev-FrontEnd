@@ -221,6 +221,31 @@ new Vue({
 
         isCheckoutEnabled() {
             return this.validateName() && this.validatePhone();
+        },
+
+        filteredProducts() {
+            return this.products.filter(product => {
+                const query = this.searchQuery.toLowerCase();
+    
+                // Safeguard by ensuring each field is defined and not null
+                const subject = product.subject ? product.subject.toLowerCase() : '';
+                const location = product.location ? product.location.toLowerCase() : '';
+                const price = product.price ? product.price.toString() : '';
+                const spaces = product.spaces ? product.spaces.toString() : '';
+    
+                // Check if the query matches any of the product fields
+                return (
+                    subject.includes(query) ||
+                    location.includes(query) ||
+                    price.includes(query) ||
+                    spaces.includes(query)
+                );
+            }).sort((a, b) => {
+                let modifier = this.sortOrder === 'asc' ? 1 : -1;
+                if (a[this.sortAttribute] < b[this.sortAttribute]) return -1 * modifier;
+                if (a[this.sortAttribute] > b[this.sortAttribute]) return 1 * modifier;
+                return 0;
+            });
         }
     }
 });
