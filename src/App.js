@@ -127,12 +127,22 @@ new Vue({
 
         // Remove a specific product from the cart in batches
         removeItemFromCart(product) {
+            // Find the index of the product in the cart
             const index = this.cart.findIndex(cartProduct => cartProduct.id === product.id);
+        
             if (index !== -1) {
-                this.cart.splice(index, 1);
-                product.spaces++;
+                // Remove the product from the cart
+                const removedProduct = this.cart.splice(index, 1)[0]; 
+        
+                // Find the original product in the products array and increase its spaces
+                const originalProduct = this.products.find(prod => prod.id === removedProduct.id);
+        
+                if (originalProduct) {
+                    originalProduct.spaces++;
+                }
             }
         },
+        
 
         // Group products in the cart by ID for displaying in batches
         groupedCart() {
