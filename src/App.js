@@ -19,7 +19,7 @@ new Vue({
     },
     methods: {
         fetchProducts() {
-            fetch('https://your-backend.onrender.com/lessons')
+            fetch('https://afscle.onrender.com/lessons')
                 .then(response => response.json())
                 .then(data => {
                     this.products = data;
@@ -118,7 +118,7 @@ new Vue({
                     lessons: lessons
                 };
 
-                fetch('https://your-backend.onrender.com/orders', {
+                fetch('https://afscle.onrender.com/orders', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
