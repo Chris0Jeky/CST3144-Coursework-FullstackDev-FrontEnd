@@ -52,8 +52,8 @@
 
             <!-- Product List -->
             <div class="row mt-4">
-                <div class="col-md-4" v-for="(product, key) in filteredProducts" :key="product.id">
-                    <div class="card text-center">
+                <div class="col-md-4" v-for="(product, key) in filteredProducts" :key="product._id">
+                <div class="card text-center">
                         <div class="card-body">
                             <figure>
                                 <img :src="'https://afscle.onrender.com' + product.image" alt="Product Image" class="mb-3"
