@@ -176,5 +176,10 @@ new Vue({
                 );
             });
         }
-    }
+    },
+    watch: {
+        searchQuery() {
+            this.fetchProducts();
+        }
+    },
 });
