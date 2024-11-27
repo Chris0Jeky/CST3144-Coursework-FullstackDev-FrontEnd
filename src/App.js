@@ -19,7 +19,12 @@ new Vue({
     },
     methods: {
         fetchProducts() {
-            fetch('https://afscle.onrender.com/lessons')
+            const params = new URLSearchParams();
+            if (this.searchQuery) {
+                params.append('search', this.searchQuery);
+            }
+
+            fetch(`https://afscle.onrender.com/lessons?${params.toString()}`)
                 .then(response => response.json())
                 .then(data => {
                     this.products = data;
