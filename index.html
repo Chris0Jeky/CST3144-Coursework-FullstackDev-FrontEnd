@@ -2,132 +2,162 @@
 <html lang="en">
 
 <head>
+    <!-- Basic meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>After School Classes</title>
 
+    <!-- Vue.js Library -->
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-    <!-- Bootstrap CSS -->
+
+    <!-- Bootstrap CSS for styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="src/style.css" rel="stylesheet"> <!-- Link to external CSS -->
+
+    <!-- Custom CSS -->
+    <link href="src/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div id="products">
-        <div class="container mt-4">
-            <h4>Cart ({{ cart.length }} items)</h4>
-            <div class="container mt-4" v-if="canRemoveCart && !checkOutArea">
-                <button class="btn btn-success me-2" v-if="canRemoveCart" v-on:click="moveToOtherArea">Checkout</button>
-                <button class="btn btn-danger" v-if="canRemoveCart" v-on:click="clearCart">Clear Cart</button>
-            </div>
-        </div>
-        <div v-if="!checkOutArea">
-            <!-- Search Bar -->
-            <div class="container mt-4">
-                <input type="text" class="form-control" v-model="searchQuery" placeholder="Search for lessons..." />
-            </div>
-
-            <!-- Sorting Options -->
-            <div class="container sorting-options mt-4 p-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="sortAttribute">Sort by:</label>
-                        <select v-model="sortAttribute" @change="sortProducts" class="form-select">
-                            <option value="topic">Subject</option>
-                            <option value="location">Location</option>
-                            <option value="price">Price</option>
-                            <option value="space">Spaces</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <!--suppress XmlInvalidId -->
-                        <label for="sortOrder">Order:</label>
-                        <select v-model="sortOrder" @change="sortProducts" class="form-select">
-                            <option value="asc">Ascending</option>
-                            <option value="desc">Descending</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product List -->
-            <div class="row mt-4">
-                <div class="col-md-4" v-for="(product, key) in filteredProducts" :key="product._id">
-                <div class="card text-center">
-                        <div class="card-body">
-                            <figure>
-                                <img :src="'https://afscle.onrender.com' + product.image" alt="Product Image" class="mb-3"
-                                    style="width: 150px; height: auto;">
-                            </figure>
-                            <h5>{{ product.topic }}</h5>
-                            <p>Location: {{ product.location }}</p>
-                            <p>Price: £{{ product.price }}</p>
-                            <p>Spaces: {{ product.space }}</p>
-                            <button class="btn btn-primary" v-on:click="addItem(product)"
-                                :disabled="product.space === 0">
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Checkout Area -->
-        <div v-if="checkOutArea">
-            <div class="container mt-4 text-center">
-                <button class="btn btn-warning" v-on:click="moveToOtherArea">Back To Products</button>
-            </div>
-
-            <!-- Checkout Header and Rectangle -->
-            <div class="container mt-4 checkout-area">
-                <h4 class="checkout-header">Checkout Area</h4>
-
-                <!-- Display grouped cart items -->
-                <div class="checkout-rectangle mt-4 p-4">
-                    <h4 class="checkout-title">Checkout</h4>
-                    <ul>
-                        <li v-for="groupedProduct in groupedCart()" :key="groupedProduct.id" class="checkout-item">
-                            {{ groupedProduct.topic }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
-                            <span> x {{ groupedProduct.quantity }} </span>
-                            <button class="btn btn-danger btn-sm ms-2" v-on:click="removeItemFromCart(groupedProduct)">
-                                Remove One
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Checkout Form -->
-            <div class="checkout-form mt-4">
-                <div class="mb-3">
-                    <label for="nameInput" class="form-label">Name:</label>
-                    <input type="text" id="nameInput" v-model="name" class="form-control" placeholder="Enter your name">
-                    <!-- Error message for name -->
-                    <p v-if="nameError" class="text-danger">{{ nameError }}</p>
-                </div>
-                <div class="mb-3">
-                    <label for="phoneInput" class="form-label">Phone:</label>
-                    <input type="text" id="phoneInput" v-model="phone" class="form-control"
-                        placeholder="Enter your phone number">
-                    <!-- Error message for phone -->
-                    <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
-                </div>
-                <button class="btn btn-success" :disabled="!isCheckoutEnabled" v-on:click="submitOrder">
-                    Checkout
-                </button>
-            </div>
-
-            <!-- Confirmation message -->
-            <p v-if="orderSubmitted" class="mt-4 text-success">
-                Your order has been successfully submitted!
-            </p>
+<!-- Vue.js app container -->
+<div id="products">
+    <!-- Cart Section -->
+    <div class="container mt-4">
+        <h4>Cart ({{ cart.length }} items)</h4>
+        <!-- Checkout and Clear Cart buttons -->
+        <div class="container mt-4" v-if="canRemoveCart && !checkOutArea">
+            <button class="btn btn-success me-2" v-if="canRemoveCart" v-on:click="moveToOtherArea">Checkout</button>
+            <button class="btn btn-danger" v-if="canRemoveCart" v-on:click="clearCart">Clear Cart</button>
         </div>
     </div>
 
-    <script src="src/App.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Lessons and Sorting Section -->
+    <div v-if="!checkOutArea">
+        <!-- Search Bar -->
+        <div class="container mt-4">
+            <input type="text" class="form-control" v-model="searchQuery" placeholder="Search for lessons..." />
+        </div>
+
+        <!-- Sorting Options -->
+        <div class="container sorting-options mt-4 p-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="sortAttribute">Sort by:</label>
+                    <select v-model="sortAttribute" @change="sortProducts" class="form-select">
+                        <option value="topic">Topic</option>
+                        <option value="location">Location</option>
+                        <option value="price">Price</option>
+                        <option value="space">Spaces</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="sortOrder">Order:</label>
+                    <select v-model="sortOrder" @change="sortProducts" class="form-select">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product List -->
+        <div class="row mt-4">
+            <!-- Loop through filtered products -->
+            <div class="col-md-4" v-for="(product, key) in filteredProducts" :key="product._id">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <figure>
+                            <!-- Product Image -->
+                            <img :src="'https://afscle.onrender.com' + product.image" alt="Product Image" class="mb-3"
+                                 style="width: 150px; height: auto;">
+                        </figure>
+                        <!-- Product Details -->
+                        <h5>{{ product.topic }}</h5>
+                        <p>Location: {{ product.location }}</p>
+                        <p>Price: £{{ product.price }}</p>
+                        <p>Spaces: {{ product.space }}</p>
+                        <!-- Add to Cart Button -->
+                        <button class="btn btn-primary" v-on:click="addItem(product)"
+                                :disabled="product.space === 0">
+                            Add to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div v-if="loading" class="text-center mt-4">
+            <p>Loading products...</p>
+        </div>
+
+        <!-- No Products Found Message -->
+        <div v-if="!loading && filteredProducts.length === 0" class="text-center mt-4">
+            <p>No products found.</p>
+        </div>
+    </div>
+
+    <!-- Checkout Area -->
+    <div v-if="checkOutArea">
+        <div class="container mt-4 text-center">
+            <!-- Back to Products Button -->
+            <button class="btn btn-warning" v-on:click="moveToOtherArea">Back To Products</button>
+        </div>
+
+        <!-- Checkout Header and Cart Items -->
+        <div class="container mt-4 checkout-area">
+            <h4 class="checkout-header">Checkout Area</h4>
+
+            <!-- Display grouped cart items -->
+            <div class="checkout-rectangle mt-4 p-4">
+                <h4 class="checkout-title">Checkout</h4>
+                <ul>
+                    <li v-for="groupedProduct in groupedCart()" :key="groupedProduct._id" class="checkout-item">
+                        <!-- Display product details and quantity -->
+                        {{ groupedProduct.topic }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
+                        <span> x {{ groupedProduct.quantity }} </span>
+                        <!-- Remove One Button -->
+                        <button class="btn btn-danger btn-sm ms-2" v-on:click="removeItemFromCart(groupedProduct)">
+                            Remove One
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="checkout-form mt-4">
+            <!-- Name Input -->
+            <div class="mb-3">
+                <label for="nameInput" class="form-label">Name:</label>
+                <input type="text" id="nameInput" v-model="name" class="form-control" placeholder="Enter your name">
+                <!-- Error message for name -->
+                <p v-if="nameError" class="text-danger">{{ nameError }}</p>
+            </div>
+            <!-- Phone Input -->
+            <div class="mb-3">
+                <label for="phoneInput" class="form-label">Phone:</label>
+                <input type="text" id="phoneInput" v-model="phone" class="form-control"
+                       placeholder="Enter your phone number">
+                <!-- Error message for phone -->
+                <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
+            </div>
+            <!-- Checkout Button -->
+            <button class="btn btn-success" :disabled="!isCheckoutEnabled" v-on:click="submitOrder">
+                Checkout
+            </button>
+        </div>
+
+        <!-- Confirmation message -->
+        <p v-if="orderSubmitted" class="mt-4 text-success">
+            Your order has been successfully submitted!
+        </p>
+    </div>
+</div>
+
+<!-- Vue.js Application Script -->
+<script src="src/App.js"></script>
+<!-- Bootstrap JS for interactivity -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
