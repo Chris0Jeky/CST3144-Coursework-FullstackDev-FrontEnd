@@ -107,20 +107,17 @@ new Vue({
         },
         submitOrder() {
             if (this.isCheckoutEnabled) {
-                // Construct the lessons array
                 const lessons = this.groupedCart().map(item => ({
                     lessonId: item._id,
                     quantity: item.quantity
                 }));
 
-                // Prepare the order data
                 const orderData = {
                     name: this.name,
                     phone: this.phone,
                     lessons: lessons
                 };
 
-                // Send the order to the back-end
                 fetch('https://afscle.onrender.com/orders', {
                     method: 'POST',
                     headers: {
@@ -140,15 +137,15 @@ new Vue({
                         this.clearCart();
                         this.name = '';
                         this.phone = '';
-                        // Refresh the products list to update available spaces
-                        this.fetchProducts();
+                        this.fetchProducts(); // Refresh products to update spaces
                     })
                     .catch(error => {
                         console.error('Error submitting order:', error);
                     });
             }
-        },
-        computed: {
+        }
+    },
+    computed: {
         canRemoveCart() {
             return this.cart.length > 0;
         },
