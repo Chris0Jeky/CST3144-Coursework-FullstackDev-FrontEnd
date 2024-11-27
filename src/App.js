@@ -146,7 +146,9 @@ new Vue({
                         const updatePromises = lessons.map(item => {
                             // Prepare the update data
                             const updateData = {
-                                delta: -item.quantity
+                                $inc: {
+                                    space: -item.quantity
+                                }
                             };
 
                             // Send PUT request to update lesson space
@@ -184,6 +186,7 @@ new Vue({
                     });
             }
         }
+
     },
     computed: {
         canRemoveCart() {
