@@ -127,7 +127,9 @@ new Vue({
                 })
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error('Failed to submit order');
+                            return response.json().then(errData => {
+                                throw new Error(errData.error || 'Failed to submit order');
+                            });
                         }
                         return response.json();
                     })
@@ -141,6 +143,7 @@ new Vue({
                     })
                     .catch(error => {
                         console.error('Error submitting order:', error);
+                        alert(`Order submission failed: ${error.message}`);
                     });
             }
         }
