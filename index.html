@@ -59,10 +59,10 @@
                                 <img v-bind:src="'https://afscle.onrender.com/' + product.image" alt="Product Image" class="mb-3"
                                     style="width: 150px; height: auto;">
                             </figure>
-                            <h5>{{ product.subject }}</h5>
+                            <h5>{{ product.topic }}</h5>
                             <p>Location: {{ product.location }}</p>
                             <p>Price: £{{ product.price }}</p>
-                            <p>Spaces: {{ product.spaces }}</p>
+                            <p>Spaces: {{ product.space }}</p>
                             <button class="btn btn-primary" v-on:click="addItem(product)"
                                 :disabled="product.spaces === 0">
                                 Add to cart
