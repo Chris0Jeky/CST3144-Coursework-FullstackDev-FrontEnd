@@ -64,7 +64,7 @@
                             <p>Price: £{{ product.price }}</p>
                             <p>Spaces: {{ product.space }}</p>
                             <button class="btn btn-primary" v-on:click="addItem(product)"
-                                :disabled="product.spaces === 0">
+                                :disabled="product.space === 0">
                                 Add to cart
                             </button>
                         </div>
@@ -88,7 +88,7 @@
                     <h4 class="checkout-title">Checkout</h4>
                     <ul>
                         <li v-for="groupedProduct in groupedCart()" :key="groupedProduct.id" class="checkout-item">
-                            {{ groupedProduct.subject }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
+                            {{ groupedProduct.topic }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
                             <span> x {{ groupedProduct.quantity }} </span>
                             <button class="btn btn-danger btn-sm ms-2" v-on:click="removeItemFromCart(groupedProduct)">
                                 Remove One

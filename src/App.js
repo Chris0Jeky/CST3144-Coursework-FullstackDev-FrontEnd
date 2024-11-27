@@ -103,7 +103,7 @@ new Vue({
                 this.phoneError = 'Phone number is required.';
                 return false;
             } else if (!phoneRegex.test(this.phone)) {
-                this.phoneError = 'Phone must contain only numbers.';
+                this.phoneError = 'Phone must contain only numbers. A regular accepted phone number contains 10 digits.';
                 return false;
             } else {
                 this.phoneError = '';
