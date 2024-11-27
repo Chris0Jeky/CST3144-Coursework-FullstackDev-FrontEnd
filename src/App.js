@@ -123,7 +123,6 @@ new Vue({
                     lessons: lessons
                 };
 
-                // First, submit the order to the back end
                 fetch('https://afscle.onrender.com/orders', {
                     method: 'POST',
                     headers: {
@@ -141,39 +140,6 @@ new Vue({
                     })
                     .then(data => {
                         console.log('Order submitted:', data);
-
-                        // After order submission, update the lessons' spaces
-                        const updatePromises = lessons.map(item => {
-                            // Prepare the update data
-                            const updateData = {
-                                $inc: {
-                                    space: -item.quantity
-                                }
-                            };
-
-                            // Send PUT request to update lesson space
-                            return fetch(`https://afscle.onrender.com/lessons/${item.lessonId}`, {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(updateData)
-                            })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        return response.json().then(errData => {
-                                            throw new Error(`Failed to update lesson ${item.lessonId}: ${errData.error || 'Unknown error'}`);
-                                        });
-                                    }
-                                    return response.json();
-                                });
-                        });
-
-                        // Wait for all PUT requests to complete
-                        return Promise.all(updatePromises);
-                    })
-                    .then(() => {
-                        // All updates succeeded
                         this.orderSubmitted = true;
                         this.clearCart();
                         this.name = '';
@@ -181,12 +147,11 @@ new Vue({
                         this.fetchProducts(); // Refresh products to update spaces
                     })
                     .catch(error => {
-                        console.error('Error submitting order or updating lessons:', error);
+                        console.error('Error submitting order:', error);
                         alert(`Order submission failed: ${error.message}`);
                     });
             }
         }
-
     },
     computed: {
         canRemoveCart() {
