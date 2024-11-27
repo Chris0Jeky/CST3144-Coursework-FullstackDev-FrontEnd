@@ -161,20 +161,7 @@ new Vue({
             return this.validateName() && this.validatePhone();
         },
         filteredProducts() {
-            return this.products.filter(product => {
-                const query = this.searchQuery.toLowerCase();
-                const topic = product.topic ? product.topic.toLowerCase() : '';
-                const location = product.location ? product.location.toLowerCase() : '';
-                const price = product.price ? product.price.toString() : '';
-                const space = product.space ? product.space.toString() : '';
-
-                return (
-                    topic.includes(query) ||
-                    location.includes(query) ||
-                    price.includes(query) ||
-                    space.includes(query)
-                );
-            });
+            return this.products;
         }
     },
     watch: {
