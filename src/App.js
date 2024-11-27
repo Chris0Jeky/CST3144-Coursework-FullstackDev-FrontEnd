@@ -93,7 +93,7 @@ new Vue({
             }
         },
         validatePhone() {
-            const phoneRegex = /^[0-9]+$/;
+            const phoneRegex = /^[0-9]{10}$/;
             if (!this.phone) {
                 this.phoneError = 'Phone number is required.';
                 return false;
