@@ -78,6 +78,12 @@ new Vue({
                     // Fallback for old API format
                     this.products = result;
                 }
+                
+                // Normalize data to use 'spaces' field
+                this.products = this.products.map(product => ({
+                    ...product,
+                    spaces: product.spaces !== undefined ? product.spaces : (product.space || 0)
+                }));
             } catch (error) {
                 console.error('Error fetching products:', error);
                 this.showNotification('Error', 'Failed to load lessons. Please try again.');
@@ -136,10 +142,11 @@ new Vue({
         
         async updateProductSpaces(productId, spaces) {
             try {
+                // Use 'space' field for backward compatibility
                 await fetch(`${this.baseUrl}/api/lessons/${productId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ spaces })
+                    body: JSON.stringify({ space: spaces })
                 });
             } catch (error) {
                 console.error('Error updating product spaces:', error);
