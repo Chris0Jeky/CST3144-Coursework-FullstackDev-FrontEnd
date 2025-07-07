@@ -108,7 +108,7 @@
                 </div>
                 <div v-else>
                     <div class="cart-item" v-for="item in groupedCart" :key="item._id">
-                        <img :src="baseUrl + item.image" :alt="item.topic">
+                        <img :src="item.imageUrl || getImageUrl(item.image)" :alt="item.topic">
                         <div class="cart-item-details">
                             <h6>{{ item.topic }}</h6>
                             <p class="mb-0">{{ item.location }}</p>
@@ -244,7 +244,7 @@
                              :data-aos="'fade-up'" :data-aos-delay="index * 100">
                             <div class="lesson-card h-100">
                                 <div class="lesson-image">
-                                    <img :src="baseUrl + lesson.image" :alt="lesson.topic" class="img-fluid">
+                                    <img :src="lesson.imageUrl || getImageUrl(lesson.image)" :alt="lesson.topic" class="img-fluid">
                                     <span class="lesson-badge" :class="getCategoryClass(lesson.topic)">
                                         {{ getCategoryLabel(lesson.topic) }}
                                     </span>
@@ -322,7 +322,7 @@
                                 <div class="order-items">
                                     <div class="order-item" v-for="item in groupedCart" :key="item._id">
                                         <div class="d-flex align-items-center">
-                                            <img :src="baseUrl + item.image" :alt="item.topic" class="order-item-image">
+                                            <img :src="item.imageUrl || getImageUrl(item.image)" :alt="item.topic" class="order-item-image">
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="mb-1">{{ item.topic }}</h6>
                                                 <p class="text-muted mb-0">{{ item.location }}</p>
