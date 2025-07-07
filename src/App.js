@@ -96,7 +96,10 @@ new Vue({
         // Cart Management
         addItem(product) {
             if (product.spaces > 0) {
-                this.cart.push({ ...product });
+                this.cart.push({ 
+                    ...product,
+                    imageUrl: product.imageUrl || this.getImageUrl(product.image)
+                });
                 product.spaces--;
                 this.saveCartToStorage();
                 this.showNotification('Added to Cart', `${product.topic} has been added to your cart.`);
@@ -109,7 +112,10 @@ new Vue({
         incrementItem(item) {
             const product = this.products.find(p => p._id === item._id);
             if (product && product.spaces > 0) {
-                this.cart.push({ ...product });
+                this.cart.push({ 
+                    ...product,
+                    imageUrl: product.imageUrl || this.getImageUrl(product.image)
+                });
                 product.spaces--;
                 this.saveCartToStorage();
                 this.updateProductSpaces(product._id, product.spaces);
@@ -319,7 +325,10 @@ new Vue({
         loadCartFromStorage() {
             const savedCart = localStorage.getItem('cart');
             if (savedCart) {
-                this.cart = JSON.parse(savedCart);
+                this.cart = JSON.parse(savedCart).map(item => ({
+                    ...item,
+                    imageUrl: item.imageUrl || this.getImageUrl(item.image)
+                }));
             }
         },
         
