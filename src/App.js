@@ -79,10 +79,11 @@ new Vue({
                     this.products = result;
                 }
                 
-                // Normalize data to use 'spaces' field
+                // Normalize data to use 'spaces' field and fix image URLs
                 this.products = this.products.map(product => ({
                     ...product,
-                    spaces: product.spaces !== undefined ? product.spaces : (product.space || 0)
+                    spaces: product.spaces !== undefined ? product.spaces : (product.space || 0),
+                    imageUrl: this.getImageUrl(product.image)
                 }));
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -331,6 +332,14 @@ new Vue({
         sortProducts() {
             this.currentPage = 1;
             this.fetchProducts();
+        },
+        
+        // Helper to construct proper image URL
+        getImageUrl(imagePath) {
+            if (!imagePath) return this.baseUrl + '/images/default.gif';
+            // Remove leading slash if present to avoid double slash
+            const cleanPath = imagePath.startsWith('/') ? imagePath : '/' + imagePath;
+            return this.baseUrl + cleanPath;
         }
     },
     
