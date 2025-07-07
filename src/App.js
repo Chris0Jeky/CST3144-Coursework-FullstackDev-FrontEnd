@@ -78,20 +78,26 @@ new Vue({
                 const response = await fetch(`${this.baseUrl}/api/lessons?${params.toString()}`);
                 const result = await response.json();
                 
-                if (result.status === 'success') {
-                    this.products = result.data.lessons;
+                // Check if it's the new API format or old format
+                let lessons = [];
+                if (result.status === 'success' && result.data) {
+                    lessons = result.data.lessons;
                     this.stats.totalLessons = result.data.pagination.total;
+                } else if (Array.isArray(result)) {
+                    // Old API format - direct array
+                    lessons = result;
                 } else {
-                    // Fallback for old API format
-                    this.products = result;
+                    throw new Error('Unexpected API response format');
                 }
                 
                 // Normalize data to use 'spaces' field and fix image URLs
-                this.products = this.products.map(product => ({
+                this.products = lessons.map(product => ({
                     ...product,
                     spaces: product.spaces !== undefined ? product.spaces : (product.space || 0),
                     imageUrl: this.getImageUrl(product.image)
                 }));
+                
+                console.log('Products loaded:', this.products.length, 'Sample imageUrl:', this.products[0]?.imageUrl);
             } catch (error) {
                 console.error('Error fetching products:', error);
                 this.showNotification('Error', 'Failed to load lessons. Please try again.');
