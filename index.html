@@ -5,159 +5,421 @@
     <!-- Basic meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>After School Classes</title>
+    <meta name="description" content="Discover and book after-school lessons in various subjects. From Math to Music, find the perfect class for your child.">
+    <meta name="keywords" content="after-school, lessons, education, tutoring, classes">
+    <title>EduHub - After School Lessons Platform</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="src/favicon.png">
 
     <!-- Vue.js Library -->
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
 
-    <!-- Bootstrap CSS for styling -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="src/style.css" rel="stylesheet">
 </head>
 
 <body>
-<!-- Vue.js app container -->
-<div id="products">
-    <!-- Cart Section -->
-    <div class="container mt-4">
-        <h4>Cart ({{ cart.length }} items)</h4>
-        <!-- Checkout and Clear Cart buttons -->
-        <div class="container mt-4" v-if="canRemoveCart && !checkOutArea">
-            <button class="btn btn-success me-2" v-if="canRemoveCart" v-on:click="moveToOtherArea">Checkout</button>
-            <button class="btn btn-danger" v-if="canRemoveCart" v-on:click="clearCart">Clear Cart</button>
-        </div>
-    </div>
-
-    <!-- Lessons and Sorting Section -->
-    <div v-if="!checkOutArea">
-        <!-- Search Bar -->
-        <div class="container mt-4">
-            <input type="text" class="form-control" v-model="searchQuery" placeholder="Search for lessons..." />
-        </div>
-
-        <!-- Sorting Options -->
-        <div class="container sorting-options mt-4 p-3">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="sortAttribute">Sort by:</label>
-                    <select v-model="sortAttribute" @change="sortProducts" class="form-select">
-                        <option value="topic">Topic</option>
-                        <option value="location">Location</option>
-                        <option value="price">Price</option>
-                        <option value="space">Spaces</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="sortOrder">Order:</label>
-                    <select v-model="sortOrder" @change="sortProducts" class="form-select">
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
-                    </select>
+    <!-- Vue.js app container -->
+    <div id="app">
+        <!-- Modern Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-graduation-cap"></i> EduHub
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" @click.prevent="showStats = !showStats">
+                                <i class="fas fa-chart-bar"></i> Stats
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link cart-link" href="#" @click.prevent="toggleCart">
+                                <i class="fas fa-shopping-cart"></i> 
+                                Cart <span class="badge bg-primary">{{ totalCartItems }}</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </nav>
 
-        <!-- Product List -->
-        <div class="row mt-4">
-            <!-- Loop through filtered products -->
-            <div class="col-md-4" v-for="(product, key) in filteredProducts" :key="product._id">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <figure>
-                            <!-- Product Image -->
-                            <img :src="'https://afscle.onrender.com' + product.image" alt="Product Image" class="mb-3"
-                                 style="width: 150px; height: auto;">
-                        </figure>
-                        <!-- Product Details -->
-                        <h5>{{ product.topic }}</h5>
-                        <p>Location: {{ product.location }}</p>
-                        <p>Price: £{{ product.price }}</p>
-                        <p>Spaces: {{ product.space }}</p>
-                        <!-- Add to Cart Button -->
-                        <button class="btn btn-primary" v-on:click="addItem(product)"
-                                :disabled="product.space === 0">
-                            Add to cart
+        <!-- Hero Section -->
+        <section class="hero-section" v-if="!checkOutArea">
+            <div class="container">
+                <div class="row align-items-center min-vh-100">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <h1 class="hero-title">Unlock Your Child's <span class="text-gradient">Potential</span></h1>
+                        <p class="hero-subtitle">Discover engaging after-school lessons taught by expert instructors. From STEM to Arts, find the perfect class for your child's growth.</p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <h3>{{ stats.totalLessons }}+</h3>
+                                <p>Active Classes</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>{{ stats.totalInstructors }}+</h3>
+                                <p>Expert Teachers</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>98%</h3>
+                                <p>Parent Satisfaction</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="hero-image">
+                            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600" alt="Students learning" class="img-fluid rounded-4 shadow-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-wave">
+                <svg viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+            </div>
+        </section>
+
+        <!-- Cart Sidebar -->
+        <div class="cart-sidebar" :class="{ 'show': showCart }">
+            <div class="cart-header">
+                <h4>Shopping Cart</h4>
+                <button class="btn-close" @click="showCart = false"></button>
+            </div>
+            <div class="cart-body">
+                <div v-if="cart.length === 0" class="empty-cart">
+                    <i class="fas fa-shopping-basket fa-3x text-muted"></i>
+                    <p>Your cart is empty</p>
+                </div>
+                <div v-else>
+                    <div class="cart-item" v-for="item in groupedCart" :key="item._id">
+                        <img :src="baseUrl + item.image" :alt="item.topic">
+                        <div class="cart-item-details">
+                            <h6>{{ item.topic }}</h6>
+                            <p class="mb-0">{{ item.location }}</p>
+                            <div class="d-flex align-items-center mt-2">
+                                <span class="price">£{{ item.price }}</span>
+                                <div class="quantity-controls ms-auto">
+                                    <button @click="decrementItem(item)" class="btn btn-sm">-</button>
+                                    <span class="mx-2">{{ item.quantity }}</span>
+                                    <button @click="incrementItem(item)" class="btn btn-sm" :disabled="!canAddMore(item)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span class="fw-bold">£{{ cartTotal.toFixed(2) }}</span>
+                        </div>
+                        <button class="btn btn-primary w-100 mb-2" @click="proceedToCheckout">
+                            Proceed to Checkout
+                        </button>
+                        <button class="btn btn-outline-danger w-100" @click="clearCart">
+                            Clear Cart
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Loading Indicator -->
-        <div v-if="loading" class="text-center mt-4">
-            <p>Loading products...</p>
-        </div>
+        <!-- Main Content Area -->
+        <main class="main-content" v-if="!checkOutArea">
+            <!-- Search and Filter Section -->
+            <section class="search-section py-5">
+                <div class="container">
+                    <div class="search-container" data-aos="fade-up">
+                        <div class="row g-3">
+                            <div class="col-lg-6">
+                                <div class="search-box">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" class="form-control" v-model="searchQuery" 
+                                           placeholder="Search lessons by topic, location, or keyword...">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <select v-model="sortAttribute" @change="sortProducts" class="form-select">
+                                    <option value="">Sort by...</option>
+                                    <option value="topic">Topic A-Z</option>
+                                    <option value="location">Location</option>
+                                    <option value="price">Price</option>
+                                    <option value="spaces">Available Spaces</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <select v-model="sortOrder" @change="sortProducts" class="form-select">
+                                    <option value="asc">Low to High</option>
+                                    <option value="desc">High to Low</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Advanced Filters -->
+                        <div class="filters-row mt-3">
+                            <button class="filter-chip" :class="{ active: selectedCategory === 'all' }" 
+                                    @click="selectedCategory = 'all'">All Categories</button>
+                            <button class="filter-chip" :class="{ active: selectedCategory === 'stem' }" 
+                                    @click="selectedCategory = 'stem'">STEM</button>
+                            <button class="filter-chip" :class="{ active: selectedCategory === 'arts' }" 
+                                    @click="selectedCategory = 'arts'">Arts</button>
+                            <button class="filter-chip" :class="{ active: selectedCategory === 'sports' }" 
+                                    @click="selectedCategory = 'sports'">Sports</button>
+                            <button class="filter-chip" :class="{ active: selectedCategory === 'languages' }" 
+                                    @click="selectedCategory = 'languages'">Languages</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- No Products Found Message -->
-        <div v-if="!loading && filteredProducts.length === 0" class="text-center mt-4">
-            <p>No products found.</p>
-        </div>
-    </div>
+            <!-- Statistics Dashboard -->
+            <section class="stats-dashboard py-4" v-if="showStats">
+                <div class="container">
+                    <div class="row g-4" data-aos="fade-up">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <i class="fas fa-book-open"></i>
+                                <h3>{{ filteredProducts.length }}</h3>
+                                <p>Available Classes</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <i class="fas fa-users"></i>
+                                <h3>{{ totalSpaces }}</h3>
+                                <p>Total Spaces</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <i class="fas fa-pound-sign"></i>
+                                <h3>{{ avgPrice }}</h3>
+                                <p>Average Price</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <i class="fas fa-star"></i>
+                                <h3>4.8</h3>
+                                <p>Average Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Checkout Area -->
-    <div v-if="checkOutArea">
-        <div class="container mt-4 text-center">
-            <!-- Back to Products Button -->
-            <button class="btn btn-warning" v-on:click="moveToOtherArea">Back To Products</button>
-        </div>
+            <!-- Lessons Grid -->
+            <section class="lessons-section py-5">
+                <div class="container">
+                    <div class="section-header text-center mb-5" data-aos="fade-up">
+                        <h2 class="section-title">Available Classes</h2>
+                        <p class="section-subtitle">Choose from our wide range of enriching after-school programs</p>
+                    </div>
 
-        <!-- Checkout Header and Cart Items -->
-        <div class="container mt-4 checkout-area">
-            <h4 class="checkout-header">Checkout Area</h4>
+                    <!-- Loading State -->
+                    <div v-if="loading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3">Loading amazing classes...</p>
+                    </div>
 
-            <!-- Display grouped cart items -->
-            <div class="checkout-rectangle mt-4 p-4">
-                <h4 class="checkout-title">Checkout</h4>
-                <ul>
-                    <li v-for="groupedProduct in groupedCart()" :key="groupedProduct._id" class="checkout-item">
-                        <!-- Display product details and quantity -->
-                        {{ groupedProduct.topic }} - {{ groupedProduct.location }} (£{{ groupedProduct.price }})
-                        <span> x {{ groupedProduct.quantity }} </span>
-                        <!-- Remove One Button -->
-                        <button class="btn btn-danger btn-sm ms-2" v-on:click="removeItemFromCart(groupedProduct)">
-                            Remove One
+                    <!-- Lessons Grid -->
+                    <div v-else class="row g-4">
+                        <div class="col-lg-4 col-md-6" v-for="(lesson, index) in paginatedLessons" :key="lesson._id" 
+                             :data-aos="'fade-up'" :data-aos-delay="index * 100">
+                            <div class="lesson-card h-100">
+                                <div class="lesson-image">
+                                    <img :src="baseUrl + lesson.image" :alt="lesson.topic" class="img-fluid">
+                                    <span class="lesson-badge" :class="getCategoryClass(lesson.topic)">
+                                        {{ getCategoryLabel(lesson.topic) }}
+                                    </span>
+                                    <button class="btn-favorite" @click="toggleFavorite(lesson._id)">
+                                        <i class="fas fa-heart" :class="{ 'text-danger': isFavorite(lesson._id) }"></i>
+                                    </button>
+                                </div>
+                                <div class="lesson-content">
+                                    <h5 class="lesson-title">{{ lesson.topic }}</h5>
+                                    <div class="lesson-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i> {{ lesson.location }}</span>
+                                        <span><i class="fas fa-users"></i> {{ lesson.spaces }} spaces</span>
+                                    </div>
+                                    <p class="lesson-description">{{ lesson.description || 'Join our engaging ' + lesson.topic + ' class designed to inspire and educate.' }}</p>
+                                    <div class="lesson-footer">
+                                        <div class="lesson-price">
+                                            <span class="price-label">per session</span>
+                                            <span class="price-value">£{{ lesson.price }}</span>
+                                        </div>
+                                        <button class="btn btn-add-cart" @click="addItem(lesson)" 
+                                                :disabled="lesson.spaces === 0">
+                                            <i class="fas fa-cart-plus"></i> 
+                                            {{ lesson.spaces === 0 ? 'Sold Out' : 'Add to Cart' }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- No Results -->
+                    <div v-if="!loading && filteredProducts.length === 0" class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>No classes found</h4>
+                        <p class="text-muted">Try adjusting your search or filters</p>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div v-if="totalPages > 1" class="pagination-container mt-5">
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                    <a class="page-link" @click="currentPage--" href="#">Previous</a>
+                                </li>
+                                <li class="page-item" v-for="page in totalPages" :key="page" 
+                                    :class="{ active: currentPage === page }">
+                                    <a class="page-link" @click="currentPage = page" href="#">{{ page }}</a>
+                                </li>
+                                <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                    <a class="page-link" @click="currentPage++" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Checkout Area -->
+        <div v-if="checkOutArea" class="checkout-wrapper">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <!-- Back Button -->
+                        <button class="btn btn-outline-primary mb-4" @click="backToLessons">
+                            <i class="fas fa-arrow-left"></i> Back to Classes
                         </button>
-                    </li>
-                </ul>
+
+                        <div class="checkout-container">
+                            <h2 class="checkout-title mb-4">Complete Your Enrollment</h2>
+                            
+                            <!-- Order Summary -->
+                            <div class="order-summary mb-4">
+                                <h4 class="mb-3">Order Summary</h4>
+                                <div class="order-items">
+                                    <div class="order-item" v-for="item in groupedCart" :key="item._id">
+                                        <div class="d-flex align-items-center">
+                                            <img :src="baseUrl + item.image" :alt="item.topic" class="order-item-image">
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="mb-1">{{ item.topic }}</h6>
+                                                <p class="text-muted mb-0">{{ item.location }}</p>
+                                            </div>
+                                            <div class="text-end">
+                                                <p class="mb-0">£{{ item.price }} x {{ item.quantity }}</p>
+                                                <p class="fw-bold mb-0">£{{ (item.price * item.quantity).toFixed(2) }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-total">
+                                    <h5>Total Amount</h5>
+                                    <h4 class="text-primary">£{{ cartTotal.toFixed(2) }}</h4>
+                                </div>
+                            </div>
+
+                            <!-- Contact Form -->
+                            <div class="contact-form">
+                                <h4 class="mb-3">Contact Information</h4>
+                                <form @submit.prevent="submitOrder">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Parent/Guardian Name</label>
+                                        <input type="text" class="form-control" id="name" v-model="name" 
+                                               :class="{ 'is-invalid': nameError }" placeholder="John Doe">
+                                        <div class="invalid-feedback" v-if="nameError">{{ nameError }}</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" v-model="phone" 
+                                               :class="{ 'is-invalid': phoneError }" placeholder="07123456789">
+                                        <div class="invalid-feedback" v-if="phoneError">{{ phoneError }}</div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100" 
+                                            :disabled="!isCheckoutEnabled || submitting">
+                                        <span v-if="!submitting">
+                                            <i class="fas fa-check-circle"></i> Complete Enrollment
+                                        </span>
+                                        <span v-else>
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                            Processing...
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Checkout Form -->
-        <div class="checkout-form mt-4">
-            <!-- Name Input -->
-            <div class="mb-3">
-                <label for="nameInput" class="form-label">Name:</label>
-                <input type="text" id="nameInput" v-model="name" class="form-control" placeholder="Enter your name">
-                <!-- Error message for name -->
-                <p v-if="nameError" class="text-danger">{{ nameError }}</p>
+        <!-- Success Modal -->
+        <div class="modal fade" id="successModal" tabindex="-1" v-if="orderSubmitted">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center py-5">
+                        <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                        <h3>Enrollment Successful!</h3>
+                        <p class="mb-4">Your order has been confirmed. We'll contact you shortly with class details.</p>
+                        <p class="text-muted">Confirmation #{{ confirmationNumber }}</p>
+                        <button type="button" class="btn btn-primary" @click="resetAfterOrder">
+                            Continue Shopping
+                        </button>
+                    </div>
+                </div>
             </div>
-            <!-- Phone Input -->
-            <div class="mb-3">
-                <label for="phoneInput" class="form-label">Phone:</label>
-                <input type="text" id="phoneInput" v-model="phone" class="form-control"
-                       placeholder="Enter your phone number">
-                <!-- Error message for phone -->
-                <p v-if="phoneError" class="text-danger">{{ phoneError }}</p>
-            </div>
-            <!-- Checkout Button -->
-            <button class="btn btn-success" :disabled="!isCheckoutEnabled" v-on:click="submitOrder">
-                Checkout
-            </button>
         </div>
 
-        <!-- Confirmation message -->
-        <p v-if="orderSubmitted" class="mt-4 text-success">
-            Your order has been successfully submitted!
-        </p>
+        <!-- Toast Notifications -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div class="toast" :class="{ show: showToast }" role="alert">
+                <div class="toast-header">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong class="me-auto">{{ toastTitle }}</strong>
+                    <button type="button" class="btn-close" @click="showToast = false"></button>
+                </div>
+                <div class="toast-body">
+                    {{ toastMessage }}
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<!-- Vue.js Application Script -->
-<script src="src/App.js"></script>
-<!-- Bootstrap JS for interactivity -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Vue.js Application Script -->
+    <script src="src/App.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
 </body>
 
 </html>
