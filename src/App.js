@@ -91,11 +91,15 @@ new Vue({
                 }
                 
                 // Normalize data to use 'spaces' field and fix image URLs
-                this.products = lessons.map(product => ({
-                    ...product,
-                    spaces: product.spaces !== undefined ? product.spaces : (product.space || 0),
-                    imageUrl: this.getImageUrl(product.image)
-                }));
+                this.products = lessons.map(product => {
+                    const imageUrl = product.image ? this.baseUrl + product.image : this.baseUrl + '/images/default.gif';
+                    return {
+                        ...product,
+                        spaces: product.spaces !== undefined ? product.spaces : (product.space || 0),
+                        imageUrl: imageUrl,
+                        image: product.image || '/images/default.gif'
+                    };
+                });
                 
                 console.log('Products loaded:', this.products.length, 'Sample imageUrl:', this.products[0]?.imageUrl);
             } catch (error) {
@@ -111,7 +115,7 @@ new Vue({
             if (product.spaces > 0) {
                 this.cart.push({ 
                     ...product,
-                    imageUrl: product.imageUrl || this.getImageUrl(product.image)
+                    imageUrl: product.imageUrl || (this.baseUrl + product.image)
                 });
                 product.spaces--;
                 this.saveCartToStorage();
@@ -127,7 +131,7 @@ new Vue({
             if (product && product.spaces > 0) {
                 this.cart.push({ 
                     ...product,
-                    imageUrl: product.imageUrl || this.getImageUrl(product.image)
+                    imageUrl: product.imageUrl || (this.baseUrl + product.image)
                 });
                 product.spaces--;
                 this.saveCartToStorage();
@@ -340,7 +344,7 @@ new Vue({
             if (savedCart) {
                 this.cart = JSON.parse(savedCart).map(item => ({
                     ...item,
-                    imageUrl: item.imageUrl || this.getImageUrl(item.image)
+                    imageUrl: item.imageUrl || (this.baseUrl + (item.image || '/images/default.gif'))
                 }));
             }
         },
