@@ -54,6 +54,13 @@ new Vue({
     },
     
     methods: {
+        // Helper to construct proper image URL
+        getImageUrl(imagePath) {
+            if (!imagePath) return this.baseUrl + '/images/default.gif';
+            // Remove leading slash if present to avoid double slash
+            const cleanPath = imagePath.startsWith('/') ? imagePath : '/' + imagePath;
+            return this.baseUrl + cleanPath;
+        },
         // API Methods
         async fetchProducts() {
             this.loading = true;
@@ -341,14 +348,6 @@ new Vue({
         sortProducts() {
             this.currentPage = 1;
             this.fetchProducts();
-        },
-        
-        // Helper to construct proper image URL
-        getImageUrl(imagePath) {
-            if (!imagePath) return this.baseUrl + '/images/default.gif';
-            // Remove leading slash if present to avoid double slash
-            const cleanPath = imagePath.startsWith('/') ? imagePath : '/' + imagePath;
-            return this.baseUrl + cleanPath;
         }
     },
     
